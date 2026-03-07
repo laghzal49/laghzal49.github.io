@@ -7,11 +7,13 @@
   
   <link href="https://fonts.googleapis.com/css2?family=Victor+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
   <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 
 <body>
+  <div id="particles-js"></div>
   <div class="scanlines"></div>
 
   <nav>
@@ -23,7 +25,7 @@
   </nav>
 
   <header id="home">
-    <div class="terminal-window">
+    <div class="terminal-window reveal">
       <div class="terminal-bar">
         <span class="circle red"></span>
         <span class="circle yellow"></span>
@@ -54,7 +56,7 @@
     </div>
   </header>
 
-  <section id="about">
+  <section id="about" class="reveal">
     <h2><i class="fas fa-user-ninja"></i> About Me</h2>
     <p>
       I am a student at 1337, deeply passionate about low-level programming, algorithms, and system architecture. 
@@ -68,7 +70,7 @@
     </div>
   </section>
 
-  <section id="skills">
+  <section id="skills" class="reveal">
     <h2><i class="fas fa-microchip"></i> Technical Arsenal</h2>
     <div class="skills-wrapper">
       <span class="skill-tag"><i class="fas fa-c"></i> C / C++</span>
@@ -80,19 +82,8 @@
     </div>
   </section>
 
-  <section id="projects">
-    <h2><i class="fas fa-code-branch"></i> Featured Work</h2>
-    
-    <div class="grid-container" style="margin-bottom: 40px;">
-      <div class="card">
-        <h3><i class="fab fa-python" style="color: var(--accent); margin-right: 8px;"></i>mazegen</h3>
-        <p class="tech-stack">Python Module</p>
-        <p>A custom Python module designed for efficient maze generation and solving. Implements structured logic and clean OOP principles to handle complex grid logic.</p>
-        <a href="https://github.com/laghzal49/mazegen" target="_blank"><i class="fas fa-external-link-alt"></i> View Repository</a>
-      </div>
-    </div>
-
-    <h2><i class="fas fa-history"></i> Recent Commits (Live README Fetch)</h2>
+  <section id="projects" class="reveal">
+    <h2><i class="fas fa-history"></i> System Logs & Repositories</h2>
     <div id="loading-status" style="color: var(--accent); font-style: italic; margin-bottom: 20px;">
       <i class="fas fa-spinner fa-spin"></i> Establishing secure connection to GitHub mainframe...
     </div>
@@ -100,18 +91,24 @@
       </div>
   </section>
 
-  <section id="beyond-code">
+  <section id="beyond-code" class="reveal">
     <h2><i class="fas fa-camera-retro"></i> Beyond the Terminal</h2>
-    <p>
-      When I'm not configuring my dotfiles or debugging memory leaks, I like to step away from the screen and get behind a lens. 
-      I'm heavily into photography—capturing raw shots and experimenting with photo editing to dial in the perfect visual aesthetic.
+    <p style="margin-bottom: 30px;">
+      When I'm not configuring my dotfiles or debugging memory leaks, I step away from the screen and get behind a lens. 
+      Capturing raw shots and experimenting with photo editing to dial in the perfect visual aesthetic is how I recharge.
     </p>
+    
+    <div class="photo-grid">
+      <div class="photo-card"><div class="photo-overlay">Shot 01</div></div>
+      <div class="photo-card"><div class="photo-overlay">Shot 02</div></div>
+      <div class="photo-card"><div class="photo-overlay">Shot 03</div></div>
+    </div>
   </section>
 
-  <footer id="contact">
+  <footer id="contact" class="reveal">
     <h2><i class="fas fa-satellite-dish"></i> Let's Connect</h2>
     <p>Always open to discussing new projects, system architecture, or exchanging photography and coding setups.</p>
-    <a href="laghzaltarik0@gmail.com" class="contact-btn">
+    <a href="mailto:your.email@student.1337.ma" class="contact-btn">
       <i class="fas fa-paper-plane"></i> Execute ping
     </a>
     <p class="footer-credit">

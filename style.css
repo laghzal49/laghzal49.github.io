@@ -1,67 +1,80 @@
-/* --- FANCY ADDITIONS --- */
+/* --- NEW ADVANCED STYLING --- */
 
-/* 1. Terminal Text Selection */
-::selection {
-  background: var(--accent);
-  color: var(--bg);
-}
-
-/* 2. Custom Cyber Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-::-webkit-scrollbar-thumb {
-  background: #30363d;
-  border-radius: 5px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
-}
-
-/* 3. Cyberpunk Glitch Effect on Hover */
-.glitch {
-  position: relative;
-  display: inline-block;
-}
-.glitch:hover::before,
-.glitch:hover::after {
-  content: attr(data-text);
-  position: absolute;
+/* 1. Interactive Particles Background */
+#particles-js {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
   top: 0;
   left: 0;
+  z-index: -1; /* Puts it behind everything */
+  background-color: var(--bg);
+}
+
+/* Make body background transparent so particles show through */
+body {
+  background-color: transparent;
+}
+
+/* Make containers slightly transparent for the glassmorphism effect */
+.terminal-window, .card, .skill-tag, footer {
+  background: rgba(22, 27, 34, 0.85);
+  backdrop-filter: blur(5px);
+}
+
+/* 2. Scroll Reveal Animations (React Framer Motion style) */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 3. Photography Grid */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.photo-card {
+  height: 250px;
+  background: #21262d; /* Placeholder color */
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  /* You can add your actual photos here later like this: */
+  /* background-image: url('path-to-your-photo.jpg'); */
+  /* background-size: cover; */
+  /* background-position: center; */
+}
+
+.photo-card:hover {
+  transform: scale(1.02);
+  border-color: var(--accent);
+  box-shadow: 0 10px 20px rgba(0, 255, 65, 0.15);
+}
+
+.photo-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
-  background: var(--card);
-}
-.glitch:hover::before {
-  left: 2px;
-  text-shadow: -1px 0 red;
-  clip: rect(24px, 550px, 90px, 0);
-  animation: glitch-anim 2s infinite linear alternate-reverse;
-}
-.glitch:hover::after {
-  left: -2px;
-  text-shadow: -1px 0 blue;
-  clip: rect(85px, 550px, 140px, 0);
-  animation: glitch-anim 2.5s infinite linear alternate-reverse;
+  padding: 15px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.9));
+  color: var(--accent);
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-@keyframes glitch-anim {
-  0% { clip: rect(10px, 9999px, 44px, 0); }
-  20% { clip: rect(85px, 9999px, 59px, 0); }
-  40% { clip: rect(22px, 9999px, 98px, 0); }
-  60% { clip: rect(63px, 9999px, 11px, 0); }
-  80% { clip: rect(4px, 9999px, 73px, 0); }
-  100% { clip: rect(96px, 9999px, 32px, 0); }
-}
-
-/* Smooth fade-in class for JS */
-.fade-in {
-  animation: fadeIn 0.5s ease forwards;
-}
-@keyframes fadeIn {
-  to { opacity: 1; }
+.photo-card:hover .photo-overlay {
+  opacity: 1;
 }
