@@ -1,30 +1,57 @@
 document.addEventListener('DOMContentLoaded', () => {
+  runTerminalSequence();
   loadRepos();
 });
 
+// --- FANCY TYPING EFFECT ENGINE ---
+async function typeText(elementId, text, speed = 50) {
+  const element = document.getElementById(elementId);
+  element.innerHTML = '';
+  for (let i = 0; i < text.length; i++) {
+    element.innerHTML += text.charAt(i);
+    await new Promise(resolve => setTimeout(resolve, speed));
+  }
+}
+
+async function runTerminalSequence() {
+  // 1. Type 'whoami'
+  await typeText('cmd1', 'whoami', 100);
+  await new Promise(r => setTimeout(r, 400));
+  
+  // 2. Reveal Name
+  document.getElementById('name-output').classList.add('fade-in');
+  await new Promise(r => setTimeout(r, 600));
+
+  // 3. Reveal next prompt and type 'cat info.txt'
+  document.getElementById('prompt2').classList.add('fade-in');
+  await typeText('cmd2', 'cat info.txt', 100);
+  await new Promise(r => setTimeout(r, 400));
+
+  // 4. Type the description out rapidly
+  await typeText('info-output', 'Student at 1337 | C & Python Developer | Custom Environment Enthusiast', 30);
+  await new Promise(r => setTimeout(r, 500));
+
+  // 5. Fade in the social links
+  document.getElementById('socials').classList.add('fade-in');
+}
+
+// --- GITHUB REPO FETCHER ---
 async function loadRepos() {
   const container = document.getElementById("repos");
   const loadingStatus = document.getElementById("loading-status");
 
   try {
-    // 1. Fetch up to 100 of your repositories (auto-updates on page load)
     const response = await fetch("https://api.github.com/users/laghzal49/repos?per_page=100");
     if (!response.ok) throw new Error("Failed to fetch repos");
     const repos = await response.json();
 
-    // 2. Filter out forks and sort by latest updated
-    // Removed the .slice(0,6) so it shows ALL of them
     const allRepos = repos
       .filter(repo => !repo.fork)
       .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 
-    // Remove loading text
     loadingStatus.style.display = 'none';
 
-    // 3. Loop through ALL repos concurrently to fetch their READMEs
     await Promise.all(allRepos.map(async (repo) => {
-      
-      // Determine icon based on language
       let iconClass = 'fas fa-code';
       if (repo.language === 'C') iconClass = 'fas fa-c';
       else if (repo.language === 'Python') iconClass = 'fab fa-python';
@@ -34,38 +61,29 @@ async function loadRepos() {
         ? `<p class="tech-stack"><i class="${iconClass}"></i> ${repo.language}</p>` 
         : '';
 
-      // Default description fallback (Used if no README or if Rate Limited)
-      let finalDescription = repo.description || "System code. No specific description provided in repository.";
+      let finalDescription = repo.description || "System code. No specific description provided.";
 
-      // Fetch the README converted to HTML by GitHub
       try {
         const readmeRes = await fetch(`https://api.github.com/repos/laghzal49/${repo.name}/readme`, {
           headers: { 'Accept': 'application/vnd.github.html' } 
         });
 
-        // If successful, parse the README. If it hits a 403 Rate Limit, it just skips this block.
         if (readmeRes.ok) {
           const readmeHtml = await readmeRes.text();
-          
           const parser = new DOMParser();
           const doc = parser.parseFromString(readmeHtml, 'text/html');
-          
           const firstParagraph = doc.querySelector('p');
           
           if (firstParagraph && firstParagraph.textContent.trim().length > 0) {
             let text = firstParagraph.textContent.trim();
-            if (text.length > 140) {
-              text = text.substring(0, 140) + '...';
-            }
+            if (text.length > 140) text = text.substring(0, 140) + '...';
             finalDescription = text;
           }
         }
       } catch (readmeError) {
-        // Silently fail and keep the default repo.description
-        console.warn(`Skipped README for ${repo.name} (Likely Rate Limited)`);
+        console.warn(`Skipped README for ${repo.name}`);
       }
 
-      // 4. Build the card HTML
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
@@ -80,14 +98,11 @@ async function loadRepos() {
           <i class="fab fa-github"></i> Inspect Source
         </a>
       `;
-
-      // Append to the grid
       container.appendChild(card);
     }));
 
   } catch (error) {
-    console.error("Error loading repositories:", error);
-    loadingStatus.innerHTML = "<i class='fas fa-exclamation-triangle'></i> Error: Connection to GitHub API refused or rate-limited. Check profile directly.";
+    loadingStatus.innerHTML = "<i class='fas fa-exclamation-triangle'></i> Error: Connection to GitHub API refused.";
     loadingStatus.style.color = "#ff5f56";
   }
 }
