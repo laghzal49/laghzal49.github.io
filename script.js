@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeRevealOnScroll();
   initializeMobileMenu();
   initializeActiveSectionTracking();
+  loadFeaturedRepository();
   loadGitHubRepositories();
 });
 
@@ -207,6 +208,48 @@ async function loadGitHubRepositories() {
     status.textContent = "Synced from GitHub API.";
   } catch (error) {
     status.textContent = "Couldn’t load repositories right now. Please try again later.";
+    console.error(error);
+  }
+}
+
+async function loadFeaturedRepository() {
+  const nameEl = document.getElementById("featured-repo-name");
+  const descriptionEl = document.getElementById("featured-repo-description");
+  const techEl = document.getElementById("featured-repo-tech");
+  const linkEl = document.getElementById("featured-repo-link");
+
+  if (!nameEl || !descriptionEl || !techEl || !linkEl) {
+    return;
+  }
+
+  const username = "laghzal49";
+  const repositoryName = "mazegen";
+  const endpoint = `https://api.github.com/repos/${username}/${repositoryName}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      headers: {
+        Accept: "application/vnd.github+json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to load featured repository");
+    }
+
+    const repo = await response.json();
+
+    nameEl.textContent = repo.name || repositoryName;
+    descriptionEl.textContent = repo.description || "No description provided yet.";
+
+    const language = repo.language || "Mixed";
+    const stars = Number.isFinite(repo.stargazers_count) ? repo.stargazers_count : 0;
+    techEl.textContent = `${language} • ★ ${stars} • Updated ${new Date(repo.updated_at).toLocaleDateString()}`;
+
+    if (repo.html_url) {
+      linkEl.href = repo.html_url;
+    }
+  } catch (error) {
     console.error(error);
   }
 }
