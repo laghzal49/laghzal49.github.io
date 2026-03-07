@@ -3,52 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tlaghzal | Developer</title>
+<title>Tlaghzal | Developer Portfolio</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-body{
-    font-family: Arial, sans-serif;
-    margin:0;
-    background:#0d1117;
-    color:#e6edf3;
+:root {
+  --bg: #0d1117;
+  --text: #c9d1d9;
+  --accent: #58a6ff;
+  --card: #161b22;
 }
 
-header{
-    text-align:center;
-    padding:60px 20px;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Fira Code', monospace;
 }
 
-h1{
-    font-size:40px;
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
 }
 
-a{
-    color:#58a6ff;
-    text-decoration:none;
+a {
+  color: var(--accent);
+  text-decoration: none;
 }
 
-section{
-    max-width:900px;
-    margin:auto;
-    padding:40px 20px;
+header {
+  text-align: center;
+  padding: 80px 20px 40px 20px;
 }
 
-.projects{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
+header h1 {
+  font-size: 3rem;
 }
 
-.card{
-    background:#161b22;
-    padding:20px;
-    border-radius:10px;
+header p {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  opacity: 0.8;
 }
 
-footer{
-    text-align:center;
-    padding:40px;
-    opacity:0.7;
+section {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--accent);
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 10px;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  color: var(--accent);
+}
+
+.card p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 40px;
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.stats img {
+  border-radius: 10px;
 }
 </style>
 </head>
@@ -56,60 +115,66 @@ footer{
 <body>
 
 <header>
-<h1>Tlaghzal</h1>
-<p>1337 Student | C Developer | Systems Enthusiast</p>
-<p>
-<a href="https://github.com/laghzal49">GitHub</a>
-</p>
+  <h1>Tlaghzal</h1>
+  <p>1337 Student | C & Python Developer | Systems Enthusiast</p>
+  <p>
+    <a href="https://github.com/laghzal49" target="_blank">GitHub</a> |
+    <a href="https://www.linkedin.com/in/tlaghzal" target="_blank">LinkedIn</a>
+  </p>
+
+  <!-- GitHub Stats -->
+  <div class="stats">
+    <img src="https://github-readme-stats.vercel.app/api?username=laghzal49&show_icons=true&theme=dark&hide_border=true" alt="GitHub Stats">
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=laghzal49&layout=compact&theme=dark&hide_border=true" alt="Top Languages">
+  </div>
 </header>
 
 <section>
-<h2>About</h2>
-<p>
-Student at 1337 focusing on low-level programming, algorithms,
-and systems development. I enjoy building efficient software
-and exploring how things work under the hood.
-</p>
+  <h2>About Me</h2>
+  <p>
+    I am a student at 1337 passionate about low-level programming, algorithms, and system development.
+    I enjoy creating efficient software and learning how things work under the hood.  
+    Currently focused on building clean, practical projects that demonstrate my skills in C, Python, and Linux.
+  </p>
 </section>
 
 <section>
-<h2>Projects</h2>
-<div class="projects" id="repos"></div>
+  <h2>Projects</h2>
+  <div class="projects" id="repos">
+    <!-- GitHub repos will load here -->
+  </div>
 </section>
 
 <footer>
-<p>© 2026 Tlaghzal</p>
+  <p>© 2026 Tlaghzal</p>
 </footer>
 
 <script>
+async function loadRepos() {
+  const response = await fetch("https://api.github.com/users/laghzal49/repos");
+  const repos = await response.json();
 
-async function loadRepos(){
-    const response = await fetch("https://api.github.com/users/laghzal49/repos");
-    const repos = await response.json();
+  const container = document.getElementById("repos");
 
-    const container = document.getElementById("repos");
-
-    repos
+  repos
     .sort((a,b)=> new Date(b.updated_at)-new Date(a.updated_at))
     .slice(0,6)
     .forEach(repo => {
+      const card = document.createElement("div");
+      card.className = "card";
 
-        const card=document.createElement("div");
-        card.className="card";
-
-        card.innerHTML=`
+      card.innerHTML = `
         <h3>${repo.name}</h3>
         <p>${repo.description || "No description"}</p>
-        <p>⭐ ${repo.stargazers_count}</p>
+        <p>⭐ ${repo.stargazers_count} | Updated: ${new Date(repo.updated_at).toLocaleDateString()}</p>
         <a href="${repo.html_url}" target="_blank">View Project</a>
-        `;
+      `;
 
-        container.appendChild(card);
+      container.appendChild(card);
     });
 }
 
 loadRepos();
-
 </script>
 
 </body>
