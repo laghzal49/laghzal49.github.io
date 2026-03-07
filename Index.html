@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tlaghzal | Developer</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    background:#0d1117;
+    color:#e6edf3;
+}
+
+header{
+    text-align:center;
+    padding:60px 20px;
+}
+
+h1{
+    font-size:40px;
+}
+
+a{
+    color:#58a6ff;
+    text-decoration:none;
+}
+
+section{
+    max-width:900px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+.projects{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#161b22;
+    padding:20px;
+    border-radius:10px;
+}
+
+footer{
+    text-align:center;
+    padding:40px;
+    opacity:0.7;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Tlaghzal</h1>
+<p>1337 Student | C Developer | Systems Enthusiast</p>
+<p>
+<a href="https://github.com/laghzal49">GitHub</a>
+</p>
+</header>
+
+<section>
+<h2>About</h2>
+<p>
+Student at 1337 focusing on low-level programming, algorithms,
+and systems development. I enjoy building efficient software
+and exploring how things work under the hood.
+</p>
+</section>
+
+<section>
+<h2>Projects</h2>
+<div class="projects" id="repos"></div>
+</section>
+
+<footer>
+<p>© 2026 Tlaghzal</p>
+</footer>
+
+<script>
+
+async function loadRepos(){
+    const response = await fetch("https://api.github.com/users/laghzal49/repos");
+    const repos = await response.json();
+
+    const container = document.getElementById("repos");
+
+    repos
+    .sort((a,b)=> new Date(b.updated_at)-new Date(a.updated_at))
+    .slice(0,6)
+    .forEach(repo => {
+
+        const card=document.createElement("div");
+        card.className="card";
+
+        card.innerHTML=`
+        <h3>${repo.name}</h3>
+        <p>${repo.description || "No description"}</p>
+        <p>⭐ ${repo.stargazers_count}</p>
+        <a href="${repo.html_url}" target="_blank">View Project</a>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+loadRepos();
+
+</script>
+
+</body>
+</html>
