@@ -7,22 +7,22 @@ async function loadRepos() {
   const loadingStatus = document.getElementById("loading-status");
 
   try {
-    // 1. Fetch your repositories
-    const response = await fetch("https://api.github.com/users/laghzal49/repos");
+    // 1. Fetch up to 100 of your repositories (auto-updates on page load)
+    const response = await fetch("https://api.github.com/users/laghzal49/repos?per_page=100");
     if (!response.ok) throw new Error("Failed to fetch repos");
     const repos = await response.json();
 
-    // 2. Filter forks, sort by latest updated, get top 6
-    const topRepos = repos
+    // 2. Filter out forks and sort by latest updated
+    // Removed the .slice(0,6) so it shows ALL of them
+    const allRepos = repos
       .filter(repo => !repo.fork)
-      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-      .slice(0, 6);
+      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 
     // Remove loading text
     loadingStatus.style.display = 'none';
 
-    // 3. Loop through top repos concurrently to fetch their READMEs
-    await Promise.all(topRepos.map(async (repo) => {
+    // 3. Loop through ALL repos concurrently to fetch their READMEs
+    await Promise.all(allRepos.map(async (repo) => {
       
       // Determine icon based on language
       let iconClass = 'fas fa-code';
@@ -34,28 +34,26 @@ async function loadRepos() {
         ? `<p class="tech-stack"><i class="${iconClass}"></i> ${repo.language}</p>` 
         : '';
 
-      // Default description fallback
+      // Default description fallback (Used if no README or if Rate Limited)
       let finalDescription = repo.description || "System code. No specific description provided in repository.";
 
       // Fetch the README converted to HTML by GitHub
       try {
         const readmeRes = await fetch(`https://api.github.com/repos/laghzal49/${repo.name}/readme`, {
-          headers: { 'Accept': 'application/vnd.github.html' } // Asks GitHub to render the markdown
+          headers: { 'Accept': 'application/vnd.github.html' } 
         });
 
+        // If successful, parse the README. If it hits a 403 Rate Limit, it just skips this block.
         if (readmeRes.ok) {
           const readmeHtml = await readmeRes.text();
           
-          // Use DOMParser to safely parse the returned HTML
           const parser = new DOMParser();
           const doc = parser.parseFromString(readmeHtml, 'text/html');
           
-          // Grab the first paragraph tag from the README
           const firstParagraph = doc.querySelector('p');
           
           if (firstParagraph && firstParagraph.textContent.trim().length > 0) {
             let text = firstParagraph.textContent.trim();
-            // Truncate if it's too long so the cards stay neat
             if (text.length > 140) {
               text = text.substring(0, 140) + '...';
             }
@@ -63,8 +61,8 @@ async function loadRepos() {
           }
         }
       } catch (readmeError) {
-        console.warn(`Could not fetch README for ${repo.name}`, readmeError);
         // Silently fail and keep the default repo.description
+        console.warn(`Skipped README for ${repo.name} (Likely Rate Limited)`);
       }
 
       // 4. Build the card HTML
