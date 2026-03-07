@@ -1,229 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tarik Laghzal | 1337 Developer</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Victor+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    /* --- CORE VARIABLES & RESET --- */
-    :root {
-      --bg: #0a0e17;
-      --text: #c9d1d9;
-      --accent: #00ff41;
-      --accent-glow: rgba(0, 255, 65, 0.2);
-      --card: rgba(22, 27, 34, 0.7);
-      --nav-bg: rgba(10, 14, 23, 0.85);
-      --prompt: #58a6ff;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Victor Mono', monospace; }
-    html { scroll-behavior: smooth; }
-    body { background-color: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
-
-    /* Custom Selection & Scrollbar */
-    ::selection { background: var(--accent); color: var(--bg); }
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-    /* --- BACKGROUND EFFECTS --- */
-    .scanlines {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
-      background-size: 100% 4px; z-index: 9999; pointer-events: none;
-    }
-
-    a { color: var(--accent); text-decoration: none; transition: 0.3s; }
-    a:hover { color: #fff; text-shadow: 0 0 8px var(--accent); }
-
-    /* --- NAVIGATION --- */
-    nav {
-      position: fixed; top: 0; width: 100%; background: var(--nav-bg);
-      backdrop-filter: blur(12px); padding: 15px 20px; text-align: center;
-      z-index: 1000; border-bottom: 1px solid #30363d;
-    }
-    nav a { margin: 0 15px; font-weight: 700; color: var(--text); font-size: 0.9rem; }
-    nav a i { color: var(--accent); margin-right: 5px; }
-
-    /* --- TERMINAL HEADER --- */
-    header { padding: 120px 20px 60px 20px; min-height: 85vh; display: flex; justify-content: center; align-items: center; }
-    .terminal-window {
-      width: 100%; max-width: 850px; background: var(--card); backdrop-filter: blur(10px);
-      border-radius: 10px; border: 1px solid #30363d; box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px var(--accent-glow);
-      overflow: hidden;
-    }
-    .terminal-bar { background: #161b22; padding: 12px 15px; display: flex; align-items: center; border-bottom: 1px solid #30363d; }
-    .circle { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
-    .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
-    .terminal-title { flex-grow: 1; text-align: center; font-size: 0.85rem; opacity: 0.7; margin-right: 56px; }
-    .terminal-content { padding: 35px; text-align: left; }
-    
-    .prompt-line { margin-bottom: 10px; }
-    .prompt-arrow { color: var(--accent); font-weight: bold; }
-    .prompt-dir { color: var(--prompt); font-weight: bold; }
-    
-    h1 { font-size: 3.5rem; margin: 10px 0 20px 0; color: #fff; letter-spacing: -1px; }
-    .info-text { font-style: italic; opacity: 0.9; color: #8b949e; }
-    .cursor { display: inline-block; width: 10px; height: 20px; background: var(--accent); animation: blink 1s step-end infinite; vertical-align: middle; }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-    .social-links { margin-top: 30px; display: flex; gap: 20px; }
-    .social-links a { font-size: 1.8rem; color: var(--text); }
-    .social-links a:hover { transform: translateY(-3px); color: var(--accent); }
-
-    /* --- LAYOUT & SECTIONS --- */
-    section { max-width: 1000px; margin: 80px auto; padding: 0 20px; }
-    h2 { font-size: 2rem; margin-bottom: 30px; display: flex; align-items: center; gap: 12px; color: #fff; }
-    h2 i { color: var(--accent); }
-
-    /* --- SKILLS & CARDS --- */
-    .skills-wrapper { display: flex; flex-wrap: wrap; gap: 12px; }
-    .skill-tag {
-      background: rgba(13, 17, 23, 0.6); padding: 10px 18px; border-radius: 6px;
-      border: 1px solid #30363d; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;
-      transition: 0.3s;
-    }
-    .skill-tag:hover { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); transform: translateY(-2px); }
-    .skill-tag i { color: var(--accent); }
-
-    .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-    .card {
-      background: var(--card); backdrop-filter: blur(10px); padding: 25px; border-radius: 8px;
-      border: 1px solid #30363d; display: flex; flex-direction: column; transition: 0.3s;
-    }
-    .card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 20px var(--accent-glow); }
-    .card h3 { color: #fff; font-size: 1.4rem; margin-bottom: 10px; }
-    .tech-stack { font-size: 0.85rem; color: var(--prompt); margin-bottom: 15px; font-style: italic; }
-    .card p { font-size: 0.95rem; opacity: 0.8; margin-bottom: 20px; flex-grow: 1; }
-    
-    .stats-container { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 30px; }
-    .stats-container img { border-radius: 8px; border: 1px solid #30363d; }
-
-    /* --- FOOTER --- */
-    footer { text-align: center; padding: 60px 20px; background: #0d1117; border-top: 1px solid #30363d; margin-top: 80px; }
-    .contact-btn {
-      display: inline-flex; align-items: center; gap: 10px; padding: 12px 30px;
-      border: 1px solid var(--accent); color: var(--accent); border-radius: 4px;
-      margin-top: 25px; font-weight: bold; background: transparent;
-    }
-    .contact-btn:hover { background: var(--accent); color: var(--bg); text-shadow: none; }
-
-    /* Utilities */
-    .fade-in { animation: fadeIn 0.5s ease forwards; }
-    @keyframes fadeIn { to { opacity: 1; } }
-  </style>
-</head>
-
-<body>
-  <div class="scanlines"></div>
-
-  <nav>
-    <a href="#home"><i class="fas fa-terminal"></i> ~/</a>
-    <a href="#about"><i class="fas fa-user-ninja"></i> ./about</a>
-    <a href="#projects"><i class="fas fa-code-branch"></i> ./projects</a>
-    <a href="#beyond-code"><i class="fas fa-camera-retro"></i> ./beyond-code</a>
-  </nav>
-
-  <header id="home">
-    <div class="terminal-window">
-      <div class="terminal-bar">
-        <span class="circle red"></span>
-        <span class="circle yellow"></span>
-        <span class="circle green"></span>
-        <span class="terminal-title">zsh - tarik@1337:~</span>
-      </div>
-      <div class="terminal-content">
-        <p class="prompt-line">
-          <span class="prompt-arrow">➜</span> <span class="prompt-dir">~</span> <span id="cmd1"></span>
-        </p>
-        <h1 id="name-output" style="opacity: 0;">Tarik Laghzal</h1>
-        
-        <p class="prompt-line" id="prompt2" style="opacity: 0;">
-          <span class="prompt-arrow">➜</span> <span class="prompt-dir">~</span> <span id="cmd2"></span>
-        </p>
-        <p class="info-text" id="info-output"></p>
-
-        <div class="social-links" id="socials" style="opacity: 0;">
-          <a href="https://github.com/laghzal49" target="_blank"><i class="fab fa-github"></i></a>
-          <a href="https://www.linkedin.com/in/tarik-laghzal-53a132186/" target="_blank"><i class="fab fa-linkedin"></i></a>
-          <a href="mailto:your.email@student.1337.ma"><i class="fas fa-envelope"></i></a>
-        </div>
-        
-        <p class="prompt-line" style="margin-top: 25px;">
-          <span class="prompt-arrow">➜</span> <span class="prompt-dir">~</span> <span class="cursor"></span>
-        </p>
-      </div>
-    </div>
-  </header>
-
-  <section id="about">
-    <h2><i class="fas fa-user-ninja"></i> About Me</h2>
-    <p>
-      I am a student at 1337, deeply passionate about low-level programming, algorithms, and system architecture. 
-      I thrive on understanding how things work under the hood, writing strict, Norm-compliant C code, and building 
-      efficient software. I spend a significant amount of time fine-tuning my development environment—from my Zsh configuration to my editor setup—to ensure maximum productivity and a smooth workflow.
-    </p>
-    
-    <div class="stats-container">
-      <img src="https://github-readme-stats.vercel.app/api?username=laghzal49&show_icons=true&theme=dark&hide_border=true&bg_color=161b22&title_color=00ff41&icon_color=00ff41" alt="GitHub Stats" onerror="this.style.display='none'">
-      <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=laghzal49&layout=compact&theme=dark&hide_border=true&bg_color=161b22&title_color=00ff41" alt="Top Languages" onerror="this.style.display='none'">
-    </div>
-
-    <h2 style="margin-top: 50px;"><i class="fas fa-microchip"></i> Technical Arsenal</h2>
-    <div class="skills-wrapper">
-      <span class="skill-tag"><i class="fas fa-c"></i> C / C++</span>
-      <span class="skill-tag"><i class="fab fa-python"></i> Python</span>
-      <span class="skill-tag"><i class="fab fa-linux"></i> Linux / Unix</span>
-      <span class="skill-tag"><i class="fas fa-terminal"></i> Shell Scripting (Zsh)</span>
-      <span class="skill-tag"><i class="fab fa-git-alt"></i> Git / GitHub</span>
-      <span class="skill-tag"><i class="fas fa-network-wired"></i> System Architecture</span>
-    </div>
-  </section>
-
-  <section id="projects">
-    <h2><i class="fas fa-star"></i> Featured Architecture</h2>
-    <div class="grid-container" style="margin-bottom: 40px;">
-      <div class="card" style="border-color: rgba(0, 255, 65, 0.5);">
-        <h3><i class="fab fa-python" style="color: var(--accent); margin-right: 8px;"></i>mazegen</h3>
-        <p class="tech-stack">Python Module</p>
-        <p>A custom Python module designed for efficient maze generation and solving. Implements structured logic and clean OOP principles to handle complex grid logic natively.</p>
-        <a href="https://github.com/laghzal49/mazegen" target="_blank" style="margin-top: auto;"><i class="fas fa-external-link-alt"></i> Execute Binary</a>
-      </div>
-    </div>
-
-    <h2><i class="fas fa-history"></i> Live System Logs (GitHub API)</h2>
-    <div id="loading-status" style="color: var(--accent); font-style: italic; margin-bottom: 20px;">
-      <i class="fas fa-spinner fa-spin"></i> Establishing secure connection to GitHub mainframe...
-    </div>
-    <div class="grid-container" id="repos">
-      </div>
-  </section>
-
-  <section id="beyond-code">
-    <h2><i class="fas fa-camera-retro"></i> Beyond the Terminal</h2>
-    <p>
-      When I'm not configuring my dotfiles or debugging memory leaks, I step away from the screen and get behind a lens. 
-      Capturing raw shots and experimenting with photo editing to dial in the perfect visual aesthetic is how I recharge.
-    </p>
-  </section>
-
-  <footer id="contact">
-    <h2><i class="fas fa-satellite-dish"></i> Let's Connect</h2>
-    <p>Always open to discussing new projects, system architecture, or exchanging photography tips.</p>
-    <a href="laghzaltarik0@gmail.com class="contact-btn">
-      <i class="fas fa-paper-plane"></i> Execute ping
-    </a>
-    <p style="margin-top: 40px; opacity: 0.5; font-size: 0.8rem; font-style: italic;">
-      /* © 2026 Tarik Laghzal. Compiled with coffee and code. */
-    </p>
-  </footer>
-
-  <script>
+<script>
     // --- 1. TERMINAL TYPING ENGINE ---
     document.addEventListener('DOMContentLoaded', () => {
       runTerminalSequence();
@@ -253,71 +28,49 @@
       document.getElementById('socials').classList.add('fade-in');
     }
 
-    // --- 2. BULLETPROOF GITHUB API MATCHER ---
+    // --- 2. LIGHTWEIGHT GITHUB API (NO RATE LIMIT ISSUES) ---
     async function loadGitHubData() {
       const container = document.getElementById("repos");
       const statusObj = document.getElementById("loading-status");
-      const cacheKey = 'tarik_gh_data';
       
-      // Check Cache First (Prevents rate limiting)
-      const cached = localStorage.getItem(cacheKey);
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        if (Date.now() - parsed.time < 3600000) { // 1 hour
-          statusObj.style.display = 'none';
-          renderCards(parsed.data, container);
-          return;
-        }
-      }
+      // Force clear any broken cache from earlier testing
+      localStorage.removeItem('tarik_gh_data');
 
       try {
+        // This uses ONLY 1 request, so you won't get rate-limited easily!
         const res = await fetch("https://api.github.com/users/laghzal49/repos?per_page=100");
-        if (res.status === 403) throw new Error("Rate Limited");
         if (!res.ok) throw new Error("API Error");
 
         const repos = await res.json();
+        
+        // Filter out forks and sort by latest update
         const cleanRepos = repos
           .filter(r => !r.fork)
           .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 
         statusObj.style.display = 'none';
-        let processed = [];
-
-        await Promise.all(cleanRepos.map(async (repo) => {
+        
+        let processed = cleanRepos.map(repo => {
           let icon = 'fas fa-code';
           if (repo.language === 'C') icon = 'fas fa-c';
           if (repo.language === 'Python') icon = 'fab fa-python';
           if (repo.language === 'Shell') icon = 'fas fa-terminal';
 
-          let desc = repo.description || "System code. No description provided.";
+          return {
+            name: repo.name, 
+            lang: repo.language, 
+            icon: icon, 
+            desc: repo.description || "System code. No description provided.",
+            stars: repo.stargazers_count, 
+            url: repo.html_url,
+            date: new Date(repo.updated_at).toLocaleDateString()
+          };
+        });
 
-          try {
-            const readRes = await fetch(`https://api.github.com/repos/laghzal49/${repo.name}/readme`, { headers: { 'Accept': 'application/vnd.github.html' }});
-            if (readRes.ok) {
-              const html = await readRes.text();
-              const p = new DOMParser().parseFromString(html, 'text/html').querySelector('p');
-              if (p && p.textContent.trim()) {
-                desc = p.textContent.trim().substring(0, 140) + '...';
-              }
-            }
-          } catch (e) {} // Silently ignore readme fetch failures
-
-          processed.push({
-            name: repo.name, lang: repo.language, icon: icon, desc: desc,
-            stars: repo.stargazers_count, url: repo.html_url,
-            date: new Date(repo.updated_at).toLocaleDateString(),
-            rawDate: new Date(repo.updated_at)
-          });
-        }));
-
-        processed.sort((a, b) => b.rawDate - a.rawDate);
-        localStorage.setItem(cacheKey, JSON.stringify({ time: Date.now(), data: processed }));
         renderCards(processed, container);
 
       } catch (err) {
-        statusObj.innerHTML = err.message === "Rate Limited" 
-          ? "<i class='fas fa-exclamation-triangle'></i> GitHub API rate limit reached. Cached data will restore shortly."
-          : "<i class='fas fa-exclamation-triangle'></i> Connection to GitHub failed.";
+        statusObj.innerHTML = "<i class='fas fa-exclamation-triangle'></i> Connection to GitHub failed. The API might still be blocking your IP for a few more minutes.";
         statusObj.style.color = "#ff5f56";
       }
     }
@@ -340,5 +93,3 @@
       });
     }
   </script>
-</body>
-</html>
