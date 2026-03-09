@@ -3,13 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Projects by Tarik Laghzal - systems programming, algorithms, and software engineering." />
-    <meta name="theme-color" content="#0a0e1a" />
-    <title>Projects - Tarik Laghzal</title>
+    <meta
+      name="description"
+      content="Projects by Tarik Laghzal, including live repositories loaded from GitHub with README previews."
+    />
+    <title>Projects | Tarik Laghzal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Work+Sans:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -22,162 +24,37 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- Ambient Background -->
-    <div class="scene-bg">
-      <div class="grid-bg"></div>
-      <div class="glow glow-1"></div>
-      <div class="glow glow-2"></div>
-    </div>
+    <div class="bg-grid"></div>
+    <div class="bg-blur bg-blur-1"></div>
+    <div class="bg-blur bg-blur-2"></div>
 
-    <!-- Header Navigation -->
-    <header class="header" role="banner">
-      <div class="header-container">
-        <a href="index.html" class="logo">TL</a>
-        <nav class="nav" id="nav">
-          <a href="index.html" class="nav-link">Home</a>
-          <a href="about.html" class="nav-link">About</a>
-          <a href="projects.html" class="nav-link active">Projects</a>
-          <a href="contact.html" class="nav-link">Contact</a>
-        </nav>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </header>
-
-    <main>
-      <!-- Page Hero -->
-      <section class="page-hero">
-        <div class="container">
-          <h1>Featured Projects</h1>
-          <p>High-performance systems and algorithmic implementations</p>
-        </div>
-      </section>
-
-      <!-- Projects Grid -->
-      <section class="featured">
-        <div class="container">
-          <div id="projects-list" class="featured-grid">
-            <!-- Projects loaded via JavaScript -->
-          </div>
-        </div>
-      </section>
-
-      <!-- CTA Section -->
-      <section class="cta-section">
-        <div class="container">
-          <h2>Interested in a collaboration?</h2>
-          <p>Let's build something amazing together</p>
-          <a href="contact.html" class="btn btn-primary">Start a Project</a>
-        </div>
-      </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <p>&copy; 2026 Tarik Laghzal. Engineered with ❤️</p>
-          <div class="footer-links">
-            <a href="https://github.com/laghzal49" target="_blank" rel="noopener">GitHub</a>
-            <a href="https://linkedin.com/in/tarik-laghzal-53a132186/" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="mailto:laghzaltarik0@gmail.com">Email</a>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <style>
-      .page-hero {
-        padding: var(--spacing-2xl) 0;
-        text-align: center;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .page-hero h1 {
-        font-size: clamp(2rem, 6vw, 4rem);
-        margin-bottom: var(--spacing-m);
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .page-hero p {
-        font-size: 1.1rem;
-        color: var(--text-secondary);
-      }
-    </style>
-
-    <script>
-      // Load all projects
-      async function loadAllProjects() {
-        const container = document.getElementById("projects-list");
-        try {
-          const response = await fetch("/api/projects");
-          if (!response.ok) throw new Error("Failed to fetch");
-          const { data: projects } = await response.json();
-          
-          container.innerHTML = projects.map(project => `
-            <article class="featured-project">
-              <div class="project-icon">${project.image}</div>
-              <h3>${project.title}</h3>
-              <p>${project.description}</p>
-              <div class="project-tags">
-                ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
-              </div>
-              <div class="project-actions">
-                <a href="${project.github}" target="_blank" class="link-btn">View Code →</a>
-              </div>
-            </article>
-          `).join("");
-        } catch (error) {
-          container.innerHTML = '<p>Failed to load projects</p>';
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", loadAllProjects);
-    </script>
-    <script src="script.js"></script>
-  </body>
-</html>
+    <header class="site-header">
+      <a href="index.html" class="logo">TL</a>
+      <button class="nav-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
         <i class="fa-solid fa-bars"></i>
       </button>
-      <nav class="site-nav" id="site-nav">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
+      <nav class="site-nav" id="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link active">Projects</a>
+        <a href="contact.html" class="nav-link">Contact</a>
       </nav>
     </header>
 
     <main>
-      <section class="section page-intro reveal">
+      <section class="section page-intro">
         <p class="section-kicker">Projects</p>
-        <h1>Selected work and live repositories</h1>
-        <p class="section-copy">A mix of featured builds and continuously updated repositories from GitHub.</p>
+        <h1>GitHub Repositories + README Highlights</h1>
+        <p class="section-copy">
+          Live data from your public GitHub profile. Each card includes stack info,
+          last update, and a short README excerpt.
+        </p>
       </section>
 
-      <section class="section reveal">
-        <div class="featured-projects">
-          <article class="project featured">
-            <div>
-              <p class="project-tag">Featured</p>
-              <h3 id="featured-repo-name">mazegen</h3>
-              <p id="featured-repo-description">
-                Python module for procedural maze generation and solving with structured logic and maintainable OOP.
-              </p>
-              <p class="project-tech" id="featured-repo-tech">Python • Algorithms • OOP</p>
-            </div>
-            <a id="featured-repo-link" href="https://github.com/laghzal49/mazegen" target="_blank" rel="noopener noreferrer">Open Repo</a>
-          </article>
-        </div>
-      </section>
-
-      <section class="section reveal">
+      <section class="section">
         <div class="repo-header">
-          <h3>Latest GitHub Repositories</h3>
-          <p id="repo-status">Loading repositories...</p>
+          <h2>Latest Repositories</h2>
+          <p id="repo-status">Loading repositories from GitHub...</p>
         </div>
         <div class="repo-grid" id="repo-grid"></div>
       </section>
@@ -187,7 +64,7 @@
       <p class="section-kicker">Contact</p>
       <h2>Want to collaborate?</h2>
       <a class="btn btn-primary" href="contact.html">Get in Touch</a>
-      <small>© 2026 Tarik Laghzal</small>
+      <small>Copyright 2026 Tarik Laghzal</small>
     </footer>
 
     <script src="script.js"></script>

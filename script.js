@@ -1,24 +1,19 @@
-/**
- * Portfolio Script
- * Modern interactive features for the portfolio
- */
-
 const roles = [
-  "architect efficient systems",
-  "design performant solutions",
-  "write clean, reliable code"
+  "building efficient systems",
+  "designing clean architecture",
+  "shipping reliable software"
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeTypewriter();
   initializeMobileMenu();
-  loadFeaturedProjects();
   setupNavigation();
+  setupSmoothScroll();
+  loadFeaturedProjects();
+  loadGitHubRepositories();
+  setupContactForm();
 });
 
-/**
- * Typewriter effect for terminal
- */
 function initializeTypewriter() {
   const target = document.getElementById("terminal-text");
   if (!target) return;
@@ -28,211 +23,267 @@ function initializeTypewriter() {
   let deleting = false;
 
   const tick = () => {
-    const currentRole = roles[roleIndex];
+    const current = roles[roleIndex];
+    charIndex += deleting ? -1 : 1;
+    target.textContent = current.slice(0, charIndex);
 
-    if (!deleting) {
-      charIndex += 1;
-    } else {
-      charIndex -= 1;
-    }
+    let delay = deleting ? 35 : 70;
 
-    target.textContent = currentRole.slice(0, charIndex);
-
-    let timeout = deleting ? 40 : 70;
-
-    if (!deleting && charIndex === currentRole.length) {
-      timeout = 1200;
+    if (!deleting && charIndex === current.length) {
       deleting = true;
+      delay = 1200;
     } else if (deleting && charIndex === 0) {
       deleting = false;
       roleIndex = (roleIndex + 1) % roles.length;
-      timeout = 350;
+      delay = 260;
     }
 
-    setTimeout(tick, timeout);
+    window.setTimeout(tick, delay);
   };
 
   tick();
 }
 
-/**
- * Mobile menu toggle
- */
 function initializeMobileMenu() {
   const toggle = document.getElementById("menu-toggle");
   const nav = document.getElementById("nav");
-
   if (!toggle || !nav) return;
 
   toggle.addEventListener("click", () => {
-    nav.classList.toggle("active");
-    toggle.setAttribute("aria-expanded", nav.classList.contains("active"));
+    nav.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", String(nav.classList.contains("open")));
   });
 
-  // Close menu when link clicked
-  nav.querySelectorAll("a").forEach(link => {
+  nav.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
-      nav.classList.remove("active");
+      nav.classList.remove("open");
       toggle.setAttribute("aria-expanded", "false");
     });
   });
 }
 
-/**
- * Setup navigation active states
- */
 function setupNavigation() {
-  const navLinks = document.querySelectorAll(".nav-link");
-  const currentPath = window.location.pathname;
+  const links = document.querySelectorAll(".nav-link");
+  const path = window.location.pathname.split("/").pop() || "index.html";
 
-  navLinks.forEach(link => {
+  links.forEach((link) => {
     const href = link.getAttribute("href");
-    if (href === currentPath || (currentPath === "/" && href === "index.html")) {
+    if (href === path) {
       link.classList.add("active");
     }
   });
 }
 
-/**
- * Load featured projects from API
- */
+function setupSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", (event) => {
+      const href = anchor.getAttribute("href");
+      if (!href || href === "#") return;
+
+      const target = document.querySelector(href);
+      if (!target) return;
+
+      event.preventDefault();
+      target.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+}
+
 async function loadFeaturedProjects() {
   const container = document.getElementById("featured-list");
   if (!container) return;
 
   try {
     const response = await fetch("/api/projects");
-    if (!response.ok) throw new Error("Failed to fetch projects");
+    if (!response.ok) throw new Error("Backend projects not available");
 
-    const { data: projects } = await response.json();
+    const payload = await response.json();
+    const projects = Array.isArray(payload.data) ? payload.data.slice(0, 3) : [];
 
-    // Display first 3 projects
-    const featured = projects.slice(0, 3);
-
-    container.innerHTML = featured.map(project => `
-      <article class="featured-project">
-        <div class="project-icon">${project.image}</div>
-        <h3>${project.title}</h3>
-        <p>${project.description}</p>
-        <div class="project-tags">
-          ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
-        </div>
-        <div class="project-actions">
-          <a href="${project.github}" target="_blank" class="link-btn">View →</a>
-        </div>
-      </article>
-    `).join("");
-  } catch (error) {
-    console.error("Error loading projects:", error);
-    container.innerHTML = '<p>Failed to load projects. Try again later.</p>';
-  }
-}
-
-/**
- * Smooth scroll behavior
- */
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener("click", function (e) {
-    const href = this.getAttribute("href");
-    if (href !== "#") {
-      e.preventDefault();
-      const target = document.querySelector(href);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  });
-});
-
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to load repositories");
-    }
-
-    const repositories = await response.json();
-    if (!Array.isArray(repositories) || repositories.length === 0) {
-      status.textContent = "No public repositories available right now.";
+    if (projects.length === 0) {
+      container.innerHTML = "<p class=\"empty\">No featured projects yet.</p>";
       return;
     }
 
-    repoGrid.innerHTML = "";
-    repositories.forEach((repo) => {
-      const card = document.createElement("article");
-      card.className = "repo-card";
-
-      const updatedDate = new Date(repo.updated_at).toLocaleDateString();
-      const language = repo.language || "Mixed";
-      const description = repo.description || "No description provided.";
-
-      card.innerHTML = `
-        <div class="repo-title">
-          <h4>${escapeHTML(repo.name)}</h4>
-          ${repo.fork ? '<span class="repo-fork">Fork</span>' : ""}
-        </div>
-        <p class="repo-desc">${escapeHTML(description)}</p>
-        <div class="repo-meta">
-          <span>${escapeHTML(language)}</span>
-          <span>★ ${repo.stargazers_count}</span>
-          <span>${updatedDate}</span>
-        </div>
-        <a class="repo-link" href="${repo.html_url}" target="_blank" rel="noopener noreferrer">View Repository →</a>
-      `;
-
-      repoGrid.appendChild(card);
-    });
-
-    status.textContent = "Synced from GitHub API.";
-  } catch (error) {
-    status.textContent = "Couldn’t load repositories right now. Please try again later.";
-    console.error(error);
+    container.innerHTML = projects
+      .map(
+        (project) => `
+          <article class="repo-card">
+            <div class="repo-title-row">
+              <h3>${escapeHtml(project.title || "Untitled")}</h3>
+            </div>
+            <p class="repo-desc">${escapeHtml(project.description || "No description")}</p>
+            <div class="repo-meta">
+              ${(project.tags || [])
+                .slice(0, 4)
+                .map((tag) => `<span class="pill">${escapeHtml(tag)}</span>`)
+                .join("")}
+            </div>
+            <a class="repo-link" href="${project.github || "#"}" target="_blank" rel="noopener noreferrer">View Repository</a>
+          </article>
+        `
+      )
+      .join("");
+  } catch (_error) {
+    container.innerHTML = "<p class=\"empty\">Backend API unavailable. Check deployment or server status.</p>";
   }
 }
 
-async function loadFeaturedRepository() {
-  const nameEl = document.getElementById("featured-repo-name");
-  const descriptionEl = document.getElementById("featured-repo-description");
-  const techEl = document.getElementById("featured-repo-tech");
-  const linkEl = document.getElementById("featured-repo-link");
-
-  if (!nameEl || !descriptionEl || !techEl || !linkEl) {
-    return;
-  }
+async function loadGitHubRepositories() {
+  const repoGrid = document.getElementById("repo-grid");
+  const status = document.getElementById("repo-status");
+  if (!repoGrid || !status) return;
 
   const username = "laghzal49";
-  const repositoryName = "mazegen";
-  const endpoint = `https://api.github.com/repos/${username}/${repositoryName}`;
 
   try {
-    const response = await fetch(endpoint, {
-      headers: {
-        Accept: "application/vnd.github+json"
+    const response = await fetch(
+      `https://api.github.com/users/${username}/repos?sort=updated&per_page=9&type=owner`,
+      {
+        headers: { Accept: "application/vnd.github+json" }
       }
-    });
+    );
 
     if (!response.ok) {
-      throw new Error("Failed to load featured repository");
+      throw new Error("Failed to fetch repositories");
     }
 
-    const repo = await response.json();
+    const repos = await response.json();
+    const filtered = repos.filter((repo) => !repo.fork);
 
-    nameEl.textContent = repo.name || repositoryName;
-    descriptionEl.textContent = repo.description || "No description provided yet.";
-
-    const language = repo.language || "Mixed";
-    const stars = Number.isFinite(repo.stargazers_count) ? repo.stargazers_count : 0;
-    techEl.textContent = `${language} • ★ ${stars} • Updated ${new Date(repo.updated_at).toLocaleDateString()}`;
-
-    if (repo.html_url) {
-      linkEl.href = repo.html_url;
+    if (filtered.length === 0) {
+      status.textContent = "No public repositories available.";
+      return;
     }
+
+    const cards = await Promise.all(
+      filtered.slice(0, 6).map(async (repo) => {
+        const readmePreview = await getReadmePreview(username, repo.name);
+        return renderRepoCard(repo, readmePreview);
+      })
+    );
+
+    repoGrid.innerHTML = cards.join("");
+    status.textContent = `Loaded ${cards.length} repositories from GitHub.`;
   } catch (error) {
     console.error(error);
+    status.textContent = "Could not load GitHub repositories right now.";
+    repoGrid.innerHTML = "<p class=\"empty\">Try again in a minute. GitHub API may be rate-limited.</p>";
   }
 }
 
-function escapeHTML(value) {
+async function getReadmePreview(username, repoName) {
+  try {
+    const response = await fetch(`https://api.github.com/repos/${username}/${repoName}/readme`, {
+      headers: { Accept: "application/vnd.github+json" }
+    });
+
+    if (!response.ok) return "README preview unavailable.";
+
+    const payload = await response.json();
+    if (!payload.content) return "README preview unavailable.";
+
+    const text = decodeBase64Utf8(payload.content);
+    return normalizeReadme(text);
+  } catch (_error) {
+    return "README preview unavailable.";
+  }
+}
+
+function decodeBase64Utf8(value) {
+  const cleaned = String(value).replace(/\n/g, "");
+  const decoded = atob(cleaned);
+  const bytes = Uint8Array.from(decoded, (char) => char.charCodeAt(0));
+  return new TextDecoder("utf-8").decode(bytes);
+}
+
+function normalizeReadme(markdown) {
+  const plain = markdown
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/^#+\s+/gm, "")
+    .replace(/^[>*-]\s+/gm, "")
+    .replace(/\r/g, "")
+    .replace(/\n+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!plain) return "README preview unavailable.";
+
+  return `${plain.slice(0, 180)}${plain.length > 180 ? "..." : ""}`;
+}
+
+function renderRepoCard(repo, readmePreview) {
+  const language = repo.language || "Mixed";
+  const stars = Number.isFinite(repo.stargazers_count) ? repo.stargazers_count : 0;
+  const updatedAt = new Date(repo.updated_at).toLocaleDateString();
+  const description = repo.description || "No description provided.";
+
+  return `
+    <article class="repo-card">
+      <div class="repo-title-row">
+        <h3>${escapeHtml(repo.name)}</h3>
+      </div>
+      <p class="repo-desc">${escapeHtml(description)}</p>
+      <p class="repo-readme"><strong>README:</strong> ${escapeHtml(readmePreview)}</p>
+      <div class="repo-meta">
+        <span class="pill">${escapeHtml(language)}</span>
+        <span class="pill">Stars ${stars}</span>
+        <span class="pill">Updated ${updatedAt}</span>
+      </div>
+      <a class="repo-link" href="${repo.html_url}" target="_blank" rel="noopener noreferrer">Open on GitHub</a>
+    </article>
+  `;
+}
+
+function setupContactForm() {
+  const form = document.getElementById("contact-form");
+  const statusBox = document.getElementById("form-status");
+  if (!form || !statusBox) return;
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const payload = {
+      name: document.getElementById("name")?.value?.trim() || "",
+      email: document.getElementById("email")?.value?.trim() || "",
+      subject: document.getElementById("subject")?.value?.trim() || "",
+      message: document.getElementById("message")?.value?.trim() || ""
+    };
+
+    if (!payload.name || !payload.email || !payload.subject || !payload.message) {
+      setFormStatus(statusBox, "Please fill in all fields.", "error");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error("Submission failed");
+      }
+
+      form.reset();
+      setFormStatus(statusBox, "Message sent successfully.", "success");
+    } catch (_error) {
+      setFormStatus(statusBox, "Could not send the message right now.", "error");
+    }
+  });
+}
+
+function setFormStatus(node, message, variant) {
+  node.textContent = message;
+  node.classList.remove("success", "error");
+  node.classList.add(variant);
+}
+
+function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
