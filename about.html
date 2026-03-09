@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="About Tarik Laghzal - developer profile, skills, and engineering mindset." />
-    <title>Tarik Laghzal | About</title>
+    <meta name="description" content="About Tarik Laghzal - Systems engineer passionate about building efficient software." />
+    <meta name="theme-color" content="#0a0e1a" />
+    <title>About Tarik Laghzal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Work+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -21,13 +22,285 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="bg-grid"></div>
-    <div class="bg-blur bg-blur-1"></div>
-    <div class="bg-blur bg-blur-2"></div>
+    <!-- Ambient Background -->
+    <div class="scene-bg">
+      <div class="grid-bg"></div>
+      <div class="glow glow-1"></div>
+      <div class="glow glow-2"></div>
+    </div>
 
-    <header class="site-header" id="top">
-      <a class="logo" href="index.html">TL</a>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+    <!-- Header Navigation -->
+    <header class="header" role="banner">
+      <div class="header-container">
+        <a href="index.html" class="logo">TL</a>
+        <nav class="nav" id="nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link active">About</a>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Page Hero -->
+      <section class="page-hero">
+        <div class="container">
+          <h1>About Me</h1>
+          <p>Systems engineer with a passion for building fast, reliable software</p>
+        </div>
+      </section>
+
+      <!-- Biography Section -->
+      <section class="featured">
+        <div class="container">
+          <div class="bio-grid">
+            <article class="bio-content">
+              <h2>Building Systems That Scale</h2>
+              <p>
+                I'm a systems engineer who believes in writing code that is not just correct, but performant. My approach combines deep systems knowledge with modern software engineering practices.
+              </p>
+              <p>
+                My journey in tech started with a fascination for how computers work at the lowest level. This led me to master low-level programming languages like C and C++, while also staying current with modern technologies and practices.
+              </p>
+              <p>
+                Today, I build efficient systems, solve complex algorithmic problems, and help teams write better code. I'm particularly interested in memory management, performance optimization, and architectural design.
+              </p>
+            </article>
+
+            <aside class="bio-panel">
+              <h3>Quick Facts</h3>
+              <ul>
+                <li><strong>Focus:</strong> Systems & Performance</li>
+                <li><strong>Primary Languages:</strong> C, C++, Python</li>
+                <li><strong>Specialties:</strong> Algorithms, Data Structures, Optimization</li>
+                <li><strong>Philosophy:</strong> Simple > Complex, Fast > Slow</li>
+                <li><strong>Location:</strong> Remote / Open to relocation</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section class="features">
+        <div class="container">
+          <h2 class="section-title">Technical Expertise</h2>
+          <div class="skills-grid">
+            <article class="skill-group">
+              <h3>Languages</h3>
+              <ul class="skill-list">
+                <li><span class="skill-bar"><span class="skill-fill" style="width: 95%"></span></span> C - 95%</li>
+                <li><span class="skill-bar"><span class="skill-fill" style="width: 90%"></span></span> C++ - 90%</li>
+                <li><span class="skill-bar"><span class="skill-fill" style="width: 85%"></span></span> Python - 85%</li>
+                <li><span class="skill-bar"><span class="skill-fill" style="width: 75%"></span></span> JavaScript - 75%</li>
+              </ul>
+            </article>
+
+            <article class="skill-group">
+              <h3>Competencies</h3>
+              <ul class="skill-list">
+                <li><span class="skill-bar"><span class="skill-fill" style="width: 95%"></span></span> Systems Programming - 95%</li>
+                <li><span class="skill-bar"><span class="skill-fill" style="width: 92%"></span></span> Data Structures - 92%</li>
+                <li><span class="skill-bar"><span class="skill-fill" style="width: 90%"></span></span> Algorithms - 90%</li>
+                <li><span class="skill-bar"><span class="skill-fill" style="width: 85%"></span></span> Network Programming - 85%</li>
+              </ul>
+            </article>
+
+            <article class="skill-group">
+              <h3>Tools & Platforms</h3>
+              <div class="tool-list">
+                <span class="tool-badge">GCC/Clang</span>
+                <span class="tool-badge">GDB</span>
+                <span class="tool-badge">Valgrind</span>
+                <span class="tool-badge">Linux/Unix</span>
+                <span class="tool-badge">Git</span>
+                <span class="tool-badge">CMake</span>
+                <span class="tool-badge">Docker</span>
+                <span class="tool-badge">PostgreSQL</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta-section">
+        <div class="container">
+          <h2>Let's Work Together</h2>
+          <p>Whether you need help with performance optimization, system design, or algorithm challenges.</p>
+          <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>&copy; 2026 Tarik Laghzal. Engineered with ❤️</p>
+          <div class="footer-links">
+            <a href="https://github.com/laghzal49" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://linkedin.com/in/tarik-laghzal-53a132186/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="mailto:laghzaltarik0@gmail.com">Email</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      .page-hero {
+        padding: var(--spacing-2xl) 0;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .page-hero h1 {
+        font-size: clamp(2rem, 6vw, 4rem);
+        margin-bottom: var(--spacing-m);
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .page-hero p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+      }
+
+      .bio-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: var(--spacing-xl);
+        align-items: start;
+      }
+
+      .bio-content h2 {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-m);
+      }
+
+      .bio-content p {
+        color: var(--text-secondary);
+        margin-bottom: var(--spacing-m);
+        line-height: 1.8;
+      }
+
+      .bio-panel {
+        background: linear-gradient(135deg, rgba(26, 31, 53, 0.8), rgba(36, 45, 66, 0.6));
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-l);
+      }
+
+      .bio-panel h3 {
+        color: var(--primary);
+        margin-bottom: var(--spacing-m);
+      }
+
+      .bio-panel ul {
+        list-style: none;
+      }
+
+      .bio-panel li {
+        color: var(--text-secondary);
+        margin-bottom: var(--spacing-s);
+        padding-bottom: var(--spacing-s);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .bio-panel li:last-child {
+        border-bottom: none;
+      }
+
+      .bio-panel strong {
+        color: var(--text-primary);
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-xl);
+        text-align: center;
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-l);
+      }
+
+      .skill-group {
+        padding: var(--spacing-l);
+        background: linear-gradient(135deg, rgba(26, 31, 53, 0.5), rgba(36, 45, 66, 0.3));
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+      }
+
+      .skill-group h3 {
+        color: var(--primary);
+        margin-bottom: var(--spacing-m);
+        font-size: 1.1rem;
+      }
+
+      .skill-list {
+        list-style: none;
+      }
+
+      .skill-list li {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-m);
+        margin-bottom: var(--spacing-m);
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .skill-bar {
+        display: block;
+        width: 100px;
+        height: 6px;
+        background: rgba(0, 217, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .skill-fill {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 3px;
+      }
+
+      .tool-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-s);
+      }
+
+      .tool-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        background: rgba(0, 217, 255, 0.15);
+        border: 1px solid rgba(0, 217, 255, 0.3);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: var(--primary);
+      }
+
+      @media (max-width: 768px) {
+        .bio-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <script src="script.js"></script>
+  </body>
+</html>
         <i class="fa-solid fa-bars"></i>
       </button>
       <nav class="site-nav" id="site-nav">
