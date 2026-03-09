@@ -1,23 +1,27 @@
+/**
+ * Portfolio Script
+ * Modern interactive features for the portfolio
+ */
+
 const roles = [
-  "build low-level software",
-  "design efficient architectures",
-  "ship clean and reliable code"
+  "architect efficient systems",
+  "design performant solutions",
+  "write clean, reliable code"
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeTypewriter();
-  initializeRevealOnScroll();
   initializeMobileMenu();
-  initializeActiveSectionTracking();
-  loadFeaturedRepository();
-  loadGitHubRepositories();
+  loadFeaturedProjects();
+  setupNavigation();
 });
 
+/**
+ * Typewriter effect for terminal
+ */
 function initializeTypewriter() {
-  const target = document.getElementById("typed-role");
-  if (!target) {
-    return;
-  }
+  const target = document.getElementById("terminal-text");
+  if (!target) return;
 
   let roleIndex = 0;
   let charIndex = 0;
@@ -45,127 +49,101 @@ function initializeTypewriter() {
       timeout = 350;
     }
 
-    window.setTimeout(tick, timeout);
+    setTimeout(tick, timeout);
   };
 
   tick();
 }
 
-function initializeRevealOnScroll() {
-  const revealElements = document.querySelectorAll(".reveal");
-  if (!revealElements.length) {
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
-      });
-    },
-    {
-      threshold: 0.15,
-      rootMargin: "0px 0px -40px 0px"
-    }
-  );
-
-  revealElements.forEach((element) => observer.observe(element));
-}
-
+/**
+ * Mobile menu toggle
+ */
 function initializeMobileMenu() {
-  const navToggle = document.getElementById("nav-toggle");
-  const nav = document.getElementById("site-nav");
-  if (!navToggle || !nav) {
-    return;
-  }
+  const toggle = document.getElementById("menu-toggle");
+  const nav = document.getElementById("nav");
 
-  navToggle.addEventListener("click", () => {
-    const isOpen = nav.classList.toggle("open");
-    navToggle.setAttribute("aria-expanded", String(isOpen));
+  if (!toggle || !nav) return;
+
+  toggle.addEventListener("click", () => {
+    nav.classList.toggle("active");
+    toggle.setAttribute("aria-expanded", nav.classList.contains("active"));
   });
 
-  nav.querySelectorAll("a").forEach((link) => {
+  // Close menu when link clicked
+  nav.querySelectorAll("a").forEach(link => {
     link.addEventListener("click", () => {
-      nav.classList.remove("open");
-      navToggle.setAttribute("aria-expanded", "false");
+      nav.classList.remove("active");
+      toggle.setAttribute("aria-expanded", "false");
     });
   });
 }
 
-function initializeActiveSectionTracking() {
-  const links = [...document.querySelectorAll(".site-nav a")];
-  if (!links.length) {
-    return;
-  }
+/**
+ * Setup navigation active states
+ */
+function setupNavigation() {
+  const navLinks = document.querySelectorAll(".nav-link");
+  const currentPath = window.location.pathname;
 
-  const currentPath = window.location.pathname.split("/").pop() || "index.html";
-
-  const hasPageLinks = links.some((link) => {
-    const href = link.getAttribute("href") || "";
-    return href.endsWith(".html");
+  navLinks.forEach(link => {
+    const href = link.getAttribute("href");
+    if (href === currentPath || (currentPath === "/" && href === "index.html")) {
+      link.classList.add("active");
+    }
   });
-
-  if (hasPageLinks) {
-    links.forEach((link) => {
-      const href = link.getAttribute("href") || "";
-      const linkPath = href.split("/").pop();
-      const isHomeAlias = currentPath === "" && (linkPath === "index.html" || href === "/");
-      link.classList.toggle("active", linkPath === currentPath || isHomeAlias);
-    });
-    return;
-  }
-
-  const sections = links
-    .map((link) => {
-      const href = link.getAttribute("href") || "";
-      if (!href.startsWith("#")) {
-        return null;
-      }
-      return document.querySelector(href);
-    })
-    .filter(Boolean);
-
-  if (!sections.length) {
-    return;
-  }
-
-  const updateActive = () => {
-    const scrollPosition = window.scrollY + 120;
-
-    let currentSectionId = "";
-    sections.forEach((section) => {
-      if (section.offsetTop <= scrollPosition) {
-        currentSectionId = section.id;
-      }
-    });
-
-    links.forEach((link) => {
-      const isActive = link.getAttribute("href") === `#${currentSectionId}`;
-      link.classList.toggle("active", isActive);
-    });
-  };
-
-  window.addEventListener("scroll", updateActive, { passive: true });
-  updateActive();
 }
 
-async function loadGitHubRepositories() {
-  const repoGrid = document.getElementById("repo-grid");
-  const status = document.getElementById("repo-status");
-
-  if (!repoGrid || !status) {
-    return;
-  }
-
-  const username = "laghzal49";
-  const endpoint = `https://api.github.com/users/${username}/repos?sort=updated&per_page=6`;
+/**
+ * Load featured projects from API
+ */
+async function loadFeaturedProjects() {
+  const container = document.getElementById("featured-list");
+  if (!container) return;
 
   try {
-    const response = await fetch(endpoint, {
-      headers: {
-        Accept: "application/vnd.github+json"
+    const response = await fetch("/api/projects");
+    if (!response.ok) throw new Error("Failed to fetch projects");
+
+    const { data: projects } = await response.json();
+
+    // Display first 3 projects
+    const featured = projects.slice(0, 3);
+
+    container.innerHTML = featured.map(project => `
+      <article class="featured-project">
+        <div class="project-icon">${project.image}</div>
+        <h3>${project.title}</h3>
+        <p>${project.description}</p>
+        <div class="project-tags">
+          ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
+        </div>
+        <div class="project-actions">
+          <a href="${project.github}" target="_blank" class="link-btn">View →</a>
+        </div>
+      </article>
+    `).join("");
+  } catch (error) {
+    console.error("Error loading projects:", error);
+    container.innerHTML = '<p>Failed to load projects. Try again later.</p>';
+  }
+}
+
+/**
+ * Smooth scroll behavior
+ */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener("click", function (e) {
+    const href = this.getAttribute("href");
+    if (href !== "#") {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  });
+});
+
       }
     });
 

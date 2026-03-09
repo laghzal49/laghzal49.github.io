@@ -3,12 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Tarik Laghzal portfolio - low-level developer building fast and reliable software." />
-    <title>Tarik Laghzal | Home</title>
+    <meta name="description" content="Tarik Laghzal - Systems engineer building fast, reliable software with deep systems thinking." />
+    <meta name="theme-color" content="#0a0e1a" />
+    <title>Tarik Laghzal | Systems Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Work+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -21,113 +22,154 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="bg-grid"></div>
-    <div class="bg-blur bg-blur-1"></div>
-    <div class="bg-blur bg-blur-2"></div>
+    <!-- Ambient Background -->
+    <div class="scene-bg">
+      <div class="grid-bg"></div>
+      <div class="glow glow-1"></div>
+      <div class="glow glow-2"></div>
+    </div>
 
-    <header class="site-header" id="top">
-      <a class="logo" href="#top">TL</a>
-      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
-        <i class="fa-solid fa-bars"></i>
-      </button>
-      <nav class="site-nav" id="site-nav">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
-      </nav>
+    <!-- Header Navigation -->
+    <header class="header" role="banner">
+      <div class="header-container">
+        <a href="#" class="logo">TL</a>
+        <nav class="nav" id="nav">
+          <a href="#home" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </header>
 
+    <!-- Hero Section -->
     <main>
-      <section class="hero page-hero" id="home">
-        <div class="hero-text reveal">
-          <p class="eyebrow">1337 STUDENT • LOW-LEVEL BUILDER</p>
-          <h1>Tarik Laghzal</h1>
-          <p class="hero-subtitle">
-            I build fast, reliable software with clean architecture and systems-level thinking.
-          </p>
-          <p class="terminal-line">
-            <span class="prompt">tarik@zsh:~$</span>
-            <span id="typed-role"></span>
-            <span class="cursor"></span>
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="projects.html">View Projects</a>
-            <a class="btn btn-ghost" href="contact.html">Contact Me</a>
+      <section class="hero" id="home">
+        <div class="hero-container">
+          <div class="hero-content">
+            <div class="hero-badge">
+              <span class="badge-dot"></span>
+              <span>Systems Engineer • Builder</span>
+            </div>
+            <h1 class="hero-title">Tarik Laghzal</h1>
+            <p class="hero-subtitle">
+              I architect efficient systems and write production-grade code that performs. Deep knowledge in low-level programming, algorithms, and systems design.
+            </p>
+            <div class="hero-terminal">
+              <span class="terminal-prompt">$</span>
+              <span id="terminal-text"></span>
+              <span class="terminal-cursor"></span>
+            </div>
+            <div class="hero-cta">
+              <a href="projects.html" class="btn btn-primary">Explore Projects</a>
+              <a href="contact.html" class="btn btn-secondary">Get in Touch</a>
+            </div>
+            <div class="hero-social">
+              <a href="https://github.com/laghzal49" class="social-link" target="_blank" rel="noopener" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a href="https://linkedin.com/in/tarik-laghzal-53a132186/" class="social-link" target="_blank" rel="noopener" aria-label="LinkedIn">
+                <i class="fa-brands fa-linkedin"></i>
+              </a>
+              <a href="mailto:laghzaltarik0@gmail.com" class="social-link" aria-label="Email">
+                <i class="fa-solid fa-envelope"></i>
+              </a>
+            </div>
           </div>
-          <div class="hero-social">
-            <a href="https://github.com/laghzal49" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-              <i class="fa-brands fa-github"></i>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/tarik-laghzal-53a132186/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-            >
-              <i class="fa-brands fa-linkedin"></i>
-            </a>
-            <a href="mailto:laghzaltarik0@gmail.com" aria-label="Email">
-              <i class="fa-solid fa-envelope"></i>
-            </a>
+
+          <!-- Quick Stats Panel -->
+          <aside class="hero-panel">
+            <div class="panel-header">Technical Stack</div>
+            <div class="stats">
+              <div class="stat">
+                <span class="stat-icon">⚡</span>
+                <span class="stat-label">Primary</span>
+                <span class="stat-value">C/C++ • Python</span>
+              </div>
+              <div class="stat">
+                <span class="stat-icon">🔧</span>
+                <span class="stat-label">Focus</span>
+                <span class="stat-value">Systems & Algorithms</span>
+              </div>
+              <div class="stat">
+                <span class="stat-icon">🐧</span>
+                <span class="stat-label">Platform</span>
+                <span class="stat-value">Linux/Unix</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Featured Section -->
+      <section class="featured">
+        <div class="container">
+          <header class="section-header">
+            <h2>Featured Work</h2>
+            <p>Handpicked projects showcasing systems-level thinking and performance optimization.</p>
+          </header>
+          <div id="featured-list" class="featured-grid">
+            <!-- Projects loaded via API -->
+          </div>
+          <div class="section-cta">
+            <a href="projects.html" class="btn btn-outline">All Projects →</a>
           </div>
         </div>
+      </section>
 
-        <div class="hero-panel reveal">
-          <div class="panel-title">Quick Snapshot</div>
-          <div class="stats-grid">
-            <article class="stat-card">
-              <span class="stat-label">Primary Stack</span>
-              <span class="stat-value">C • C++ • Python</span>
+      <!-- Features Section -->
+      <section class="features">
+        <div class="container">
+          <div class="features-grid">
+            <article class="feature-card">
+              <div class="feature-icon">📊</div>
+              <h3>Systems Design</h3>
+              <p>Designing scalable, performant systems with a deep understanding of trade-offs and constraints.</p>
             </article>
-            <article class="stat-card">
-              <span class="stat-label">Focus</span>
-              <span class="stat-value">Algorithms & Systems</span>
+            <article class="feature-card">
+              <div class="feature-icon">⚙️</div>
+              <h3>Performance First</h3>
+              <p>Every line of code optimized for speed. Profiling, benchmarking, and continuous optimization.</p>
             </article>
-            <article class="stat-card">
-              <span class="stat-label">Environment</span>
-              <span class="stat-value">Linux / Unix / Zsh</span>
+            <article class="feature-card">
+              <div class="feature-icon">🎯</div>
+              <h3>Algorithm Expert</h3>
+              <p>Deep understanding of data structures and algorithms with proven optimization techniques.</p>
             </article>
-            <article class="stat-card">
-              <span class="stat-label">Work Style</span>
-              <span class="stat-value">Performance First</span>
+            <article class="feature-card">
+              <div class="feature-icon">🔒</div>
+              <h3>Memory Safe</h3>
+              <p>Careful memory management and security practices for production systems.</p>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="section reveal">
-        <div class="section-header">
-          <p class="section-kicker">Start Here</p>
-          <h2>Explore the full portfolio</h2>
-        </div>
-        <p class="section-copy">Each page is optimized for both desktop and mobile with consistent styling and navigation.</p>
-        <div class="page-grid">
-          <article class="page-card">
-            <h3>About</h3>
-            <p>My profile, engineering mindset, and the skills I use to build software that scales.</p>
-            <a href="about.html" class="page-link">Open About →</a>
-          </article>
-          <article class="page-card">
-            <h3>Projects</h3>
-            <p>Featured work plus live GitHub repositories fetched automatically from the API.</p>
-            <a href="projects.html" class="page-link">Open Projects →</a>
-          </article>
-          <article class="page-card">
-            <h3>Contact</h3>
-            <p>Direct contact info and social channels for opportunities and collaborations.</p>
-            <a href="contact.html" class="page-link">Open Contact →</a>
-          </article>
+      <!-- CTA Section -->
+      <section class="cta-section">
+        <div class="container">
+          <h2>Ready to collaborate?</h2>
+          <p>Let's build something that matters.</p>
+          <a href="contact.html" class="btn btn-primary">Start a project</a>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer section">
-      <p class="section-kicker">Ready to Work Together?</p>
-      <h2>Let’s build something meaningful</h2>
-      <p>Open to software engineering opportunities, collaborations, and ambitious technical projects.</p>
-      <a class="btn btn-primary" href="contact.html">Go to Contact</a>
-      <small>© 2026 Tarik Laghzal • Multi-page portfolio.</small>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <p>&copy; 2026 Tarik Laghzal. Engineered with ❤️</p>
+          <div class="footer-links">
+            <a href="https://github.com/laghzal49" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://linkedin.com/in/tarik-laghzal-53a132186/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="mailto:laghzaltarik0@gmail.com">Email</a>
+          </div>
+        </div>
+      </div>
     </footer>
 
     <script src="script.js"></script>
