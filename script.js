@@ -7,12 +7,16 @@ const roles = [
 document.addEventListener("DOMContentLoaded", () => {
   initializeTypewriter();
   initializeMobileMenu();
+  setupHeaderOnScroll();
   setupNavigation();
   setupSmoothScroll();
   loadFeaturedProjects();
   loadGitHubRepositories();
   setupContactForm();
 });
+
+let cachedRepos = [];
+let selectedRepoTag = "All";
 
 function initializeTypewriter() {
   const target = document.getElementById("terminal-text");
@@ -60,6 +64,18 @@ function initializeMobileMenu() {
       toggle.setAttribute("aria-expanded", "false");
     });
   });
+}
+
+function setupHeaderOnScroll() {
+  const header = document.querySelector(".site-header");
+  if (!header) return;
+
+  const onScroll = () => {
+    header.classList.toggle("scrolled", window.scrollY > 24);
+  };
+
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
 }
 
 function setupNavigation() {
@@ -132,6 +148,7 @@ async function loadFeaturedProjects() {
 async function loadGitHubRepositories() {
   const repoGrid = document.getElementById("repo-grid");
   const status = document.getElementById("repo-status");
+  const filterBox = document.getElementById("repo-filters");
   if (!repoGrid || !status) return;
 
   const username = "laghzal49";
@@ -156,20 +173,68 @@ async function loadGitHubRepositories() {
       return;
     }
 
-    const cards = await Promise.all(
-      filtered.slice(0, 6).map(async (repo) => {
+    cachedRepos = filtered.slice(0, 12);
+
+    const withReadme = await Promise.all(
+      cachedRepos.map(async (repo) => {
         const readmePreview = await getReadmePreview(username, repo.name);
-        return renderRepoCard(repo, readmePreview);
+        return { ...repo, readmePreview };
       })
     );
 
-    repoGrid.innerHTML = cards.join("");
-    status.textContent = `Loaded ${cards.length} repositories from GitHub.`;
+    cachedRepos = withReadme;
+    renderRepoFilters(filterBox, cachedRepos);
+    renderFilteredRepos(repoGrid, status);
   } catch (error) {
     console.error(error);
     status.textContent = "Could not load GitHub repositories right now.";
     repoGrid.innerHTML = "<p class=\"empty\">Try again in a minute. GitHub API may be rate-limited.</p>";
   }
+}
+
+function renderRepoFilters(container, repos) {
+  if (!container) return;
+
+  const tags = [
+    "All",
+    ...Array.from(new Set(repos.map((repo) => repo.language || "Mixed"))).slice(0, 8)
+  ];
+
+  container.innerHTML = tags
+    .map(
+      (tag) =>
+        `<button type="button" class="filter-chip ${tag === selectedRepoTag ? "active" : ""}" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</button>`
+    )
+    .join("");
+
+  container.querySelectorAll(".filter-chip").forEach((button) => {
+    button.addEventListener("click", () => {
+      selectedRepoTag = button.getAttribute("data-tag") || "All";
+      renderRepoFilters(container, repos);
+
+      const grid = document.getElementById("repo-grid");
+      const status = document.getElementById("repo-status");
+      if (!grid || !status) return;
+
+      renderFilteredRepos(grid, status);
+    });
+  });
+}
+
+function renderFilteredRepos(grid, status) {
+  const repos =
+    selectedRepoTag === "All"
+      ? cachedRepos
+      : cachedRepos.filter((repo) => (repo.language || "Mixed") === selectedRepoTag);
+
+  if (repos.length === 0) {
+    grid.innerHTML = "<p class=\"empty\">No repositories for this filter yet.</p>";
+    status.textContent = `No repositories found for ${selectedRepoTag}.`;
+    return;
+  }
+
+  grid.innerHTML = repos.map((repo) => renderRepoCard(repo, repo.readmePreview)).join("");
+  status.textContent = `Showing ${repos.length} repositories${selectedRepoTag === "All" ? "" : ` in ${selectedRepoTag}`}.`;
 }
 
 async function getReadmePreview(username, repoName) {
