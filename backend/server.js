@@ -15,7 +15,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files
-app.use(express.static(path.join(__dirname, "../")));
+app.use(
+  express.static(path.join(__dirname, "../"), {
+    etag: false,
+    lastModified: false,
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith(".html") || filePath.endsWith(".css") || filePath.endsWith(".js")) {
+        res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+        res.setHeader("Pragma", "no-cache");
+        res.setHeader("Expires", "0");
+      }
+    }
+  })
+);
 
 // API Routes
 app.use("/api/projects", projectRoutes);
@@ -31,6 +43,8 @@ app.get("/:page", (req, res) => {
   const validPages = ["index", "about", "projects", "contact"];
   const page = req.params.page.replace(/\.html?$/i, "");
 
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+
   if (validPages.includes(page)) {
     res.sendFile(path.join(__dirname, `../${page}.html`));
   } else {
@@ -39,6 +53,7 @@ app.get("/:page", (req, res) => {
 });
 
 app.get("/", (req, res) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
   res.sendFile(path.join(__dirname, "../index.html"));
 });
 
