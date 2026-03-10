@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Tarik Laghzal portfolio - systems engineer focused on efficient software, low-level programming, and performance."
+    />
+    <title>Tarik Laghzal | Systems Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css?v=20260310" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-blur bg-blur-1"></div>
+    <div class="bg-blur bg-blur-2"></div>
+
+    <header class="site-header">
+      <a href="index.html" class="logo">TL</a>
+      <button class="nav-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav class="site-nav" id="nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero page-hero">
+        <div>
+          <p class="eyebrow">Systems Engineer</p>
+          <h1>Tarik Laghzal</h1>
+          <p class="hero-subtitle">
+            I build practical high-performance software with clean architecture,
+            low-level control, and measurable results.
+          </p>
+          <div class="terminal-line">
+            <span class="prompt">$</span>
+            <span id="terminal-text"></span>
+            <span class="cursor"></span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="projects.html">View Projects</a>
+            <a class="btn btn-ghost" href="contact.html">Work With Me</a>
+          </div>
+          <div class="hero-social">
+            <a href="https://github.com/laghzal49" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://linkedin.com/in/tarik-laghzal-53a132186/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin"></i>
+            </a>
+            <a href="mailto:laghzaltarik0@gmail.com" aria-label="Email">
+              <i class="fa-solid fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+
+        <aside class="hero-panel">
+          <p class="panel-title">Current Focus</p>
+          <div class="stats-grid">
+            <article class="stat-card">
+              <span class="stat-label">Primary</span>
+              <span class="stat-value">C/C++, Python</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Specialty</span>
+              <span class="stat-value">Systems + Algo</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Environment</span>
+              <span class="stat-value">Linux / Unix</span>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Mindset</span>
+              <span class="stat-value">Fast + Reliable</span>
+            </article>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section">
+        <p class="section-kicker">Featured Work</p>
+        <h2>Selected builds with real engineering depth</h2>
+        <p class="section-copy">
+          This section pulls from the backend API and falls back to GitHub if needed.
+        </p>
+        <div id="featured-list" class="featured-grid"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer section">
+      <p class="section-kicker">Let us build</p>
+      <h2>Need someone who ships solid systems?</h2>
+      <a class="btn btn-primary" href="contact.html">Start a Conversation</a>
+      <small>Copyright 2026 Tarik Laghzal</small>
+    </footer>
+
+    <script src="script.js?v=20260310"></script>
+  </body>
+</html>
