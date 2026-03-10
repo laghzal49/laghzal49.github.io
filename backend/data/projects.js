@@ -54,3 +54,4 @@ const projects = [
     status: "completed"
   }
 ];
+export default projects;
