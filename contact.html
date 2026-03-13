@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Contact Tarik Laghzal for projects, freelance work, and collaboration." />
+    <title>Contact | Tarik Laghzal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css?v=20260310" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-blur bg-blur-1"></div>
+    <div class="bg-blur bg-blur-2"></div>
+
+    <header class="site-header">
+      <a href="index.html" class="logo">TL</a>
+      <button class="nav-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav class="site-nav" id="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="contact.html" class="nav-link active">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section page-intro">
+        <p class="section-kicker">Contact</p>
+        <h1>Let us build something useful</h1>
+        <p class="section-copy">
+          Send project details or opportunities. I usually respond within 24-48 hours.
+        </p>
+      </section>
+
+      <section class="contact-grid">
+        <article class="contact-card">
+          <h2>Send a Message</h2>
+          <form id="contact-form" class="contact-form">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" required />
+
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required />
+
+            <label for="subject">Subject</label>
+            <input id="subject" name="subject" type="text" required />
+
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+
+            <button class="btn btn-primary" type="submit">Send</button>
+            <p id="form-status" aria-live="polite"></p>
+          </form>
+        </article>
+
+        <article class="contact-card">
+          <h2>Direct Links</h2>
+          <p>
+            GitHub:
+            <a class="repo-link" href="https://github.com/laghzal49" target="_blank" rel="noopener noreferrer">
+              github.com/laghzal49
+            </a>
+          </p>
+          <p>
+            LinkedIn:
+            <a class="repo-link" href="https://linkedin.com/in/tarik-laghzal-53a132186/" target="_blank" rel="noopener noreferrer">
+              linkedin.com/in/tarik-laghzal-53a132186
+            </a>
+          </p>
+          <p>
+            Email:
+            <a class="repo-link" href="mailto:laghzaltarik0@gmail.com">laghzaltarik0@gmail.com</a>
+          </p>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer section">
+      <p class="section-kicker">Repositories</p>
+      <h2>Want proof of work?</h2>
+      <a class="btn btn-primary" href="projects.html">See GitHub + README Previews</a>
+      <small>Copyright 2026 Tarik Laghzal</small>
+    </footer>
+
+    <script src="script.js?v=20260310"></script>
+  </body>
+</html>
