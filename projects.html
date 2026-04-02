@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Projects by Tarik Laghzal, including live repositories loaded from GitHub with README previews."
+    />
+    <title>Projects | Tarik Laghzal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css?v=20260310" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-blur bg-blur-1"></div>
+    <div class="bg-blur bg-blur-2"></div>
+
+    <header class="site-header">
+      <a href="index.html" class="logo">TL</a>
+      <button class="nav-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav class="site-nav" id="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link active">Projects</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section page-intro">
+        <p class="section-kicker">Projects</p>
+        <h1>GitHub Repositories + README Highlights</h1>
+        <p class="section-copy">
+          Live data from your public GitHub profile. Each card includes stack info,
+          last update, and a short README excerpt.
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="repo-header">
+          <h2>Latest Repositories</h2>
+          <p id="repo-status">Loading repositories from GitHub...</p>
+        </div>
+        <div id="repo-filters" class="repo-filters"></div>
+        <div class="repo-grid" id="repo-grid"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer section">
+      <p class="section-kicker">Contact</p>
+      <h2>Want to collaborate?</h2>
+      <a class="btn btn-primary" href="contact.html">Get in Touch</a>
+      <small>Copyright 2026 Tarik Laghzal</small>
+    </footer>
+
+    <script src="script.js?v=20260310"></script>
+  </body>
+</html>
